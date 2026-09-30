@@ -1,0 +1,94 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>ede_3d | Impressão 3D</title>
+  <meta name="description" content="ede_3d — Suas ideias em novas dimensões. Produtos e soluções em impressão 3D.">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header class="topo">
+  <a class="marca" href="#inicio"><img src="logo-ede3d.png" alt="Logo ede_3d"></a>
+  <button class="menu-btn" aria-label="Abrir menu">☰</button>
+  <nav id="menu">
+    <a href="#inicio">Início</a>
+    <div class="dropdown">
+      <button class="dropbtn">Casa ▾</button>
+      <div class="dropdown-content">
+        <a href="#produtos" data-filter="cozinha">Cozinha</a>
+        <a href="#produtos" data-filter="banheiro">Banheiro</a>
+        <a href="#produtos" data-filter="sala">Sala</a>
+        <a href="#produtos" data-filter="quarto">Quarto</a>
+      </div>
+    </div>
+    <a href="#produtos" data-filter="brinquedos">Brinquedos</a>
+    <a href="#produtos" data-filter="utilitarios">Utilitários</a>
+    <a href="#contato">Contato</a>
+  </nav>
+</header>
+
+<main>
+<section id="inicio" class="hero">
+  <div>
+    <span class="tag">IMPRESSÃO 3D • CRIATIVIDADE • PERSONALIZAÇÃO</span>
+    <h1>Suas ideias em <strong>novas dimensões.</strong></h1>
+    <p>Peças úteis, criativas e personalizadas produzidas em impressão 3D.</p>
+    <div class="acoes">
+      <a class="btn principal" href="#produtos">Ver produtos</a>
+      <a class="btn" href="https://wa.me/5548991601403" target="_blank" rel="noopener">Falar no WhatsApp</a>
+    </div>
+  </div>
+  <img src="logo-ede3d.png" alt="ede_3d Impressão 3D" class="hero-logo">
+</section>
+
+<section class="categorias">
+  <h2>Explore por categoria</h2>
+  <div class="grid-cat">
+    <button data-filter="cozinha">🍴<span>Cozinha</span></button>
+    <button data-filter="banheiro">🧼<span>Banheiro</span></button>
+    <button data-filter="sala">🛋️<span>Sala</span></button>
+    <button data-filter="quarto">🛏️<span>Quarto</span></button>
+    <button data-filter="brinquedos">🧩<span>Brinquedos</span></button>
+    <button data-filter="utilitarios">🧰<span>Utilitários</span></button>
+  </div>
+</section>
+
+<section id="produtos" class="produtos">
+  <div class="sec-head">
+    <div><span class="tag">CATÁLOGO</span><h2>Nossos produtos</h2></div>
+    <button id="mostrarTodos" class="btn pequeno">Mostrar todos</button>
+  </div>
+  <div id="productGrid" class="product-grid"></div>
+  <p class="nota">Esta versão já está preparada para receber novos produtos e novas categorias.</p>
+</section>
+
+<section class="personalizado">
+  <div>
+    <span class="tag">TEM UMA IDEIA?</span>
+    <h2>Podemos transformar sua ideia em uma peça 3D.</h2>
+    <p>Entre em contato, conte o que você precisa e converse com a ede_3d.</p>
+  </div>
+  <a class="btn principal" href="https://wa.me/5548991601403?text=Olá%20ede_3d!%20Gostaria%20de%20falar%20sobre%20uma%20peça%203D." target="_blank" rel="noopener">Solicitar orçamento</a>
+</section>
+
+<section id="contato" class="contato">
+  <span class="tag">CONTATO</span>
+  <h2>Fale com a ede_3d</h2>
+  <div class="contact-grid">
+    <a href="https://wa.me/5548991601403" target="_blank" rel="noopener"><b>WhatsApp</b><span>(48) 99160-1403</span></a>
+    <a href="mailto:ede.3d26@gmail.com"><b>E-mail</b><span>ede.3d26@gmail.com</span></a>
+    <div><b>Endereço</b><span>Adicionar endereço</span></div>
+  </div>
+</section>
+</main>
+
+<footer>
+  <img src="logo-ede3d.png" alt="ede_3d">
+  <p>© 2026 ede_3d — Impressão 3D. Suas ideias em novas dimensões.</p>
+</footer>
+
+<a class="whatsapp" href="https://wa.me/5548991601403" target="_blank" rel="noopener" aria-label="WhatsApp">✆</a>
+<script src="script.js"></script>
+</body>
+</html>
