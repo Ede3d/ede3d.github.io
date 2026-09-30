@@ -1,10 +1,15 @@
 const produtos = [
- {nome:"Exemplo — Organizador",categoria:"cozinha",icone:"🍴",descricao:"Espaço reservado para um produto da categoria Cozinha.",preco:"R$ 00,00"},
- {nome:"Exemplo — Suporte",categoria:"banheiro",icone:"🧼",descricao:"Espaço reservado para um produto da categoria Banheiro.",preco:"R$ 00,00"},
- {nome:"Exemplo — Decoração",categoria:"sala",icone:"🛋️",descricao:"Espaço reservado para um produto da categoria Sala.",preco:"R$ 00,00"},
- {nome:"Exemplo — Organizador",categoria:"quarto",icone:"🛏️",descricao:"Espaço reservado para um produto da categoria Quarto.",preco:"R$ 00,00"},
- {nome:"Exemplo — Brinquedo 3D",categoria:"brinquedos",icone:"🧩",descricao:"Espaço reservado para brinquedos e peças criativas.",preco:"R$ 00,00"},
- {nome:"Exemplo — Utilitário",categoria:"utilitarios",icone:"🧰",descricao:"Espaço reservado para peças úteis do dia a dia.",preco:"R$ 00,00"}
+ {nome:"Exemplo — Organizador",categoria:"cozinha",icone:"🍴",descricao:"Espaço reservado para um produto da categoria Cozinha.",preco:"Sob consulta"},
+ {nome:"Exemplo — Suporte",categoria:"banheiro",icone:"🧼",descricao:"Espaço reservado para um produto da categoria Banheiro.",preco:"Sob consulta"},
+ {nome:"Exemplo — Decoração",categoria:"sala",icone:"🛋️",descricao:"Espaço reservado para um produto da categoria Sala.",preco:"Sob consulta"},
+ {nome:"Exemplo — Organizador",categoria:"quarto",icone:"🛏️",descricao:"Espaço reservado para um produto da categoria Quarto.",preco:"Sob consulta"},
+ {nome:"Brinquedos 3D",categoria:"brinquedos",icone:"🧩",descricao:"Brinquedos e peças criativas produzidas em impressão 3D.",preco:"Sob consulta"},
+ {nome:"Chaveiros Personalizados",categoria:"chaveiros",icone:"🔑",descricao:"Chaveiros com nomes, logos, temas e modelos personalizados.",preco:"Sob consulta"},
+ {nome:"Miniaturas Personalizadas",categoria:"miniaturas",icone:"🧍",descricao:"Bonequinhos e miniaturas personalizados, inclusive inspirados na aparência da pessoa a partir de referências.",preco:"Sob consulta"},
+ {nome:"Natal em 3D",categoria:"natal",icone:"🎄",descricao:"Enfeites, lembranças, nomes, decoração e presentes personalizados para o Natal.",preco:"Sob consulta"},
+ {nome:"Halloween em 3D",categoria:"halloween",icone:"🎃",descricao:"Decorações, lembrancinhas e peças temáticas personalizadas para o Halloween.",preco:"Sob consulta"},
+ {nome:"Aniversários Personalizados",categoria:"aniversarios",icone:"🎂",descricao:"Topos, lembrancinhas, nomes, chaveiros e peças personalizadas para aniversários.",preco:"Sob consulta"},
+ {nome:"Utilitários 3D",categoria:"utilitarios",icone:"🧰",descricao:"Peças úteis e soluções práticas para o dia a dia.",preco:"Sob consulta"}
 ];
 
 const grid=document.querySelector("#productGrid");
