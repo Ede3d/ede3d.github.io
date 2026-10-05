@@ -1,3 +1,7 @@
+const SUPABASE_URL = "https://xdceqwwpvmjqowjunqvt.supabase.co";
+const SUPABASE_KEY = "sb_publishable_aw2xm8AIgS_5WyXCZAkXyg_OBiy2yCS";
+const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
 const produtos = [
  {nome:"Exemplo — Organizador",categoria:"cozinha",icone:"🍴",descricao:"Espaço reservado para um produto da categoria Cozinha.",preco:"Sob consulta"},
  {nome:"Exemplo — Suporte",categoria:"banheiro",icone:"🧼",descricao:"Espaço reservado para um produto da categoria Banheiro.",preco:"Sob consulta"},
