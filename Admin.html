@@ -145,12 +145,24 @@ h2 {
 </head>
 
 <body>
+<div id="loginArea" class="container">
+  <h2>🔐 Acesso Administrativo</h2>
 
+  <label>E-mail</label>
+  <input type="email" id="loginEmail" placeholder="Digite seu e-mail">
+
+  <label>Senha</label>
+  <input type="password" id="loginSenha" placeholder="Digite sua senha">
+
+  <button id="btnLogin" type="button">Entrar</button>
+
+  <div id="loginMensagem"></div>
+</div>
+  <div id="adminArea" style="display:none;">
 <header>
 <img src="logo-ede3d.png" alt="ede_3d">
 <h1>Área Administrativa</h1>
 <p>Gerenciamento de produtos</p>
-</header>
 
 <div class="container">
 
@@ -520,7 +532,44 @@ botao.disabled = false;
 
 });
 
-carregarProdutos();
+const loginArea = document.getElementById("loginArea");
+const adminArea = document.getElementById("adminArea");
+const btnLogin = document.getElementById("btnLogin");
+const loginMensagem = document.getElementById("loginMensagem");
+
+btnLogin.addEventListener("click", async () => {
+  const email = document.getElementById("loginEmail").value.trim();
+  const senha = document.getElementById("loginSenha").value;
+
+  loginMensagem.textContent = "Entrando...";
+
+  const { error } = await supabaseClient.auth.signInWithPassword({
+    email: email,
+    password: senha
+  });
+
+  if (error) {
+    loginMensagem.style.color = "#ff6767";
+    loginMensagem.textContent = "E-mail ou senha incorretos.";
+    return;
+  }
+
+  loginArea.style.display = "none";
+  adminArea.style.display = "block";
+  carregarProdutos();
+});
+
+async function verificarLogin() {
+  const { data } = await supabaseClient.auth.getSession();
+
+  if (data.session) {
+    loginArea.style.display = "none";
+    adminArea.style.display = "block";
+    carregarProdutos();
+  }
+}
+
+verificarLogin();
 
 </script>
 
