@@ -190,14 +190,14 @@ form.addEventListener("submit", async (event) => {
 
     const { error: uploadError } =
       await supabaseClient.storage
-        .from("fotos")
+        .from("produtos")
         .upload(nomeArquivo, arquivo);
 
     if (uploadError) throw uploadError;
 
     const { data: imagemData } =
       supabaseClient.storage
-        .from("fotos")
+        .from("produtos")
         .getPublicUrl(nomeArquivo);
 
     const produto = {
