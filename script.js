@@ -1,7 +1,7 @@
 const SUPABASE_URL = "https://xdceqwwpvmjqowjunqvt.supabase.co";
 const SUPABASE_KEY = "sb_publishable_aw2xm8AIgS_5WyXCZAkXyg_OBiy2yCS";
 
-const supabase = window.supabase.createClient(
+const supabaseClient = window.supabase.createClient(
   SUPABASE_URL,
   SUPABASE_KEY
 );
@@ -14,7 +14,7 @@ let produtos = [];
 async function carregarProdutos() {
   grid.innerHTML = "<p>Carregando produtos...</p>";
 
-  const { data, error } = await supabase
+  const { data, error } = await supabaseClient
     .from("produtos")
     .select("*")
     .order("created_at", { ascending: false });
