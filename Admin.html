@@ -1,240 +1,527 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Administração | ede_3d</title> 
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Administração | ede_3d</title>
 
-  <style>
-    * { box-sizing: border-box; }
+<style>
+* { box-sizing: border-box; }
 
-    body {
-      margin: 0;
-      font-family: Arial, sans-serif;
-      background: #111;
-      color: white;
-    }
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background: #111;
+  color: white;
+}
 
-    header {
-      background: #181818;
-      padding: 20px;
-      text-align: center;
-      border-bottom: 3px solid #ff6a00;
-    }
+header {
+  background: #181818;
+  padding: 20px;
+  text-align: center;
+  border-bottom: 3px solid #ff6a00;
+}
 
-    header img {
-      width: 130px;
-      max-width: 40%;
-    }
+header img { width: 130px; }
 
-    header h1 {
-      color: #ff6a00;
-      margin-bottom: 5px;
-    }
+header h1 {
+  color: #ff6a00;
+  margin-bottom: 5px;
+}
 
-    .container {
-      max-width: 700px;
-      margin: 30px auto;
-      padding: 25px;
-      background: #1d1d1d;
-      border-radius: 15px;
-    }
+.container {
+  max-width: 800px;
+  margin: 30px auto;
+  padding: 25px;
+  background: #1d1d1d;
+  border-radius: 15px;
+}
 
-    label {
-      display: block;
-      margin-top: 18px;
-      margin-bottom: 6px;
-      font-weight: bold;
-    }
+label {
+  display: block;
+  margin-top: 18px;
+  margin-bottom: 6px;
+  font-weight: bold;
+}
 
-    input, select, textarea {
-      width: 100%;
-      padding: 12px;
-      border-radius: 8px;
-      border: 1px solid #444;
-      background: #292929;
-      color: white;
-      font-size: 16px;
-    }
+input, select, textarea {
+  width: 100%;
+  padding: 12px;
+  border-radius: 8px;
+  border: 1px solid #444;
+  background: #292929;
+  color: white;
+  font-size: 16px;
+}
 
-    textarea {
-      min-height: 110px;
-      resize: vertical;
-    }
+textarea {
+  min-height: 110px;
+  resize: vertical;
+}
 
-    button {
-      width: 100%;
-      margin-top: 25px;
-      padding: 15px;
-      background: #ff6a00;
-      color: white;
-      border: none;
-      border-radius: 8px;
-      font-size: 17px;
-      font-weight: bold;
-      cursor: pointer;
-    }
+button {
+  padding: 12px;
+  border: none;
+  border-radius: 8px;
+  font-weight: bold;
+  cursor: pointer;
+}
 
-    button:disabled {
-      opacity: .6;
-      cursor: wait;
-    }
+#salvar {
+  width: 100%;
+  margin-top: 25px;
+  background: #ff6a00;
+  color: white;
+  font-size: 17px;
+}
 
-    #mensagem {
-      margin-top: 20px;
-      text-align: center;
-      font-weight: bold;
-    }
+#mensagem {
+  margin-top: 20px;
+  text-align: center;
+  font-weight: bold;
+}
 
-    .voltar {
-      display: block;
-      text-align: center;
-      margin-top: 20px;
-      color: #ff8a35;
-      text-decoration: none;
-    }
-  </style>
+.voltar {
+  display: block;
+  text-align: center;
+  margin: 25px;
+  color: #ff8a35;
+  text-decoration: none;
+}
+
+h2 {
+  color: #ff6a00;
+  margin-top: 45px;
+}
+
+.produto {
+  display: flex;
+  gap: 15px;
+  align-items: center;
+  background: #292929;
+  padding: 15px;
+  margin-top: 15px;
+  border-radius: 12px;
+}
+
+.produto img {
+  width: 90px;
+  height: 90px;
+  object-fit: cover;
+  border-radius: 8px;
+}
+
+.info {
+  flex: 1;
+}
+
+.info h3 {
+  margin: 0 0 5px;
+}
+
+.acoes {
+  display: flex;
+  gap: 8px;
+}
+
+.editar {
+  background: #ff6a00;
+  color: white;
+}
+
+.excluir {
+  background: #c62828;
+  color: white;
+}
+
+#cancelar {
+  display: none;
+  width: 100%;
+  margin-top: 10px;
+  background: #555;
+  color: white;
+}
+</style>
 </head>
 
 <body>
 
 <header>
-  <img src="logo-ede3d.png" alt="ede_3d">
-  <h1>Área Administrativa</h1>
-  <p>Cadastro de produtos</p>
+<img src="logo-ede3d.png" alt="ede_3d">
+<h1>Área Administrativa</h1>
+<p>Gerenciamento de produtos</p>
 </header>
 
 <div class="container">
 
-  <form id="produtoForm">
+<form id="produtoForm">
 
-    <label for="nome">Nome do produto</label>
-    <input id="nome" type="text" required>
+<input type="hidden" id="produtoId">
 
-    <label for="preco">Preço</label>
-    <input id="preco" type="number" step="0.01" min="0" required>
+<label>Nome do produto</label>
+<input id="nome" type="text" required>
 
-    <label for="categoria">Categoria</label>
-    <select id="categoria" required>
-      <option value="">Selecione</option>
-      <option value="cozinha">Cozinha</option>
-      <option value="banheiro">Banheiro</option>
-      <option value="sala">Sala</option>
-      <option value="quarto">Quarto</option>
-      <option value="brinquedos">Brinquedos</option>
-      <option value="chaveiros">Chaveiros</option>
-      <option value="miniaturas">Miniaturas</option>
-      <option value="natal">Natal</option>
-      <option value="halloween">Halloween</option>
-      <option value="aniversarios">Aniversários</option>
-      <option value="utilitarios">Utilitários</option>
-    </select>
+<label>Preço</label>
+<input id="preco" type="number" step="0.01" min="0" required>
 
-    <label for="descricao">Descrição</label>
-    <textarea id="descricao" required></textarea>
+<label>Categoria</label>
+<select id="categoria" required>
+<option value="">Selecione</option>
+<option value="cozinha">Cozinha</option>
+<option value="banheiro">Banheiro</option>
+<option value="sala">Sala</option>
+<option value="quarto">Quarto</option>
+<option value="brinquedos">Brinquedos</option>
+<option value="chaveiros">Chaveiros</option>
+<option value="miniaturas">Miniaturas</option>
+<option value="natal">Natal</option>
+<option value="halloween">Halloween</option>
+<option value="aniversarios">Aniversários</option>
+<option value="utilitarios">Utilitários</option>
+</select>
 
-    <label for="foto">Foto do produto</label>
-    <input id="foto" type="file" accept="image/*" required>
+<label>Descrição</label>
+<textarea id="descricao" required></textarea>
 
-    <label for="disponivel">Disponibilidade</label>
-    <select id="disponivel">
-      <option value="true">Disponível</option>
-      <option value="false">Indisponível</option>
-    </select>
+<label>Foto do produto</label>
+<input id="foto" type="file" accept="image/*">
 
-    <button id="salvar" type="submit">Cadastrar produto</button>
+<label>Disponibilidade</label>
+<select id="disponivel">
+<option value="true">Disponível</option>
+<option value="false">Indisponível</option>
+</select>
 
-    <div id="mensagem"></div>
+<button id="salvar" type="submit">Cadastrar produto</button>
+<button id="cancelar" type="button">Cancelar edição</button>
 
-  </form>
+<div id="mensagem"></div>
 
-  <a class="voltar" href="index.html">← Voltar para o site</a>
+</form>
+
+<h2>Produtos cadastrados</h2>
+
+<div id="listaProdutos">
+Carregando produtos...
+</div>
 
 </div>
+
+<a class="voltar" href="index.html">← Voltar para o site</a>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
 <script>
-const SUPABASE_URL = "https://xdceqwwpvmjqowjunqvt.supabase.co";
-const SUPABASE_KEY = "sb_publishable_aw2xm8AIgS_5WyXCZAkXyg_OBiy2yCS";
 
-const supabaseClient = window.supabase.createClient(
-  SUPABASE_URL,
-  SUPABASE_KEY
+const SUPABASE_URL =
+"https://xdceqwwpvmjqowjunqvt.supabase.co";
+
+const SUPABASE_KEY =
+"sb_publishable_aw2xm8AIgS_5WyXCZAkXyg_OBiy2yCS";
+
+const supabaseClient =
+window.supabase.createClient(
+SUPABASE_URL,
+SUPABASE_KEY
 );
 
-const form = document.getElementById("produtoForm");
-const mensagem = document.getElementById("mensagem");
-const botao = document.getElementById("salvar");
+const form =
+document.getElementById("produtoForm");
 
-form.addEventListener("submit", async (event) => {
+const mensagem =
+document.getElementById("mensagem");
 
-  event.preventDefault();
+const botao =
+document.getElementById("salvar");
 
-  mensagem.textContent = "Cadastrando produto...";
-  botao.disabled = true;
+const cancelar =
+document.getElementById("cancelar");
 
-  try {
+let produtos = [];
 
-    const arquivo = document.getElementById("foto").files[0];
+async function carregarProdutos() {
 
-    if (!arquivo) {
-      throw new Error("Escolha uma foto.");
-    }
+const { data, error } =
+await supabaseClient
+.from("produtos")
+.select("*")
+.order("created_at",
+{ ascending:false });
 
-    const extensao = arquivo.name.split(".").pop();
-    const nomeArquivo =
-      Date.now() + "-" +
-      Math.random().toString(36).substring(2) +
-      "." + extensao;
+if(error) {
+document.getElementById("listaProdutos").innerHTML =
+"Erro ao carregar produtos.";
+return;
+}
 
-    const { error: uploadError } =
-      await supabaseClient.storage
-        .from("produtos")
-        .upload(nomeArquivo, arquivo);
+produtos = data || [];
 
-    if (uploadError) throw uploadError;
+mostrarProdutos();
+}
 
-    const { data: imagemData } =
-      supabaseClient.storage
-        .from("produtos")
-        .getPublicUrl(nomeArquivo);
+function mostrarProdutos() {
 
-    const produto = {
-      nome: document.getElementById("nome").value.trim(),
-      preco: Number(document.getElementById("preco").value),
-      categoria: document.getElementById("categoria").value,
-      descricao: document.getElementById("descricao").value.trim(),
-      foto: imagemData.publicUrl,
-      disponivel: document.getElementById("disponivel").value === "true"
-    };
+const lista =
+document.getElementById("listaProdutos");
 
-    const { error: produtoError } =
-      await supabaseClient
-        .from("produtos")
-        .insert([produto]);
+if(produtos.length === 0) {
+lista.innerHTML =
+"<p>Nenhum produto cadastrado.</p>";
+return;
+}
 
-    if (produtoError) throw produtoError;
+lista.innerHTML =
+produtos.map(p => `
 
-    mensagem.style.color = "#4cff88";
-    mensagem.textContent = "Produto cadastrado com sucesso!";
+<div class="produto">
 
-    form.reset();
+<img src="${p.foto || ""}"
+alt="${p.nome}">
 
-  } catch (erro) {
+<div class="info">
 
-    console.error(erro);
+<h3>${p.nome}</h3>
 
-    mensagem.style.color = "#ff6767";
-    mensagem.textContent =
-      "Erro: " + (erro.message || "não foi possível cadastrar.");
+<p>
+R$ ${Number(p.preco)
+.toLocaleString("pt-BR",
+{minimumFractionDigits:2})}
+</p>
 
-  } finally {
+<small>${p.categoria}</small>
 
-    botao.disabled = false;
+</div>
 
-  }
+<div class="acoes">
+
+<button class="editar"
+onclick="editarProduto(${p.id})">
+Editar
+</button>
+
+<button class="excluir"
+onclick="excluirProduto(${p.id})">
+Excluir
+</button>
+
+</div>
+
+</div>
+
+`).join("");
+}
+
+function editarProduto(id) {
+
+const p =
+produtos.find(item =>
+item.id === id);
+
+if(!p) return;
+
+document.getElementById("produtoId").value =
+p.id;
+
+document.getElementById("nome").value =
+p.nome;
+
+document.getElementById("preco").value =
+p.preco;
+
+document.getElementById("categoria").value =
+p.categoria;
+
+document.getElementById("descricao").value =
+p.descricao;
+
+document.getElementById("disponivel").value =
+String(p.disponivel);
+
+botao.textContent =
+"Salvar alterações";
+
+cancelar.style.display =
+"block";
+
+window.scrollTo({
+top:0,
+behavior:"smooth"
 });
+}
+
+cancelar.addEventListener("click", () => {
+
+form.reset();
+
+document.getElementById("produtoId").value = "";
+
+botao.textContent =
+"Cadastrar produto";
+
+cancelar.style.display =
+"none";
+
+mensagem.textContent = "";
+});
+
+async function excluirProduto(id) {
+
+if(!confirm(
+"Tem certeza que deseja excluir este produto?"
+)) return;
+
+const { error } =
+await supabaseClient
+.from("produtos")
+.delete()
+.eq("id", id);
+
+if(error) {
+alert("Erro ao excluir: " + error.message);
+return;
+}
+
+await carregarProdutos();
+}
+
+form.addEventListener(
+"submit",
+async event => {
+
+event.preventDefault();
+
+botao.disabled = true;
+
+const id =
+document.getElementById("produtoId").value;
+
+try {
+
+let fotoUrl = null;
+
+const arquivo =
+document.getElementById("foto").files[0];
+
+if(arquivo) {
+
+const extensao =
+arquivo.name.split(".").pop();
+
+const nomeArquivo =
+Date.now() + "-" +
+Math.random()
+.toString(36)
+.substring(2) +
+"." + extensao;
+
+const { error: uploadError } =
+await supabaseClient.storage
+.from("produtos")
+.upload(nomeArquivo, arquivo);
+
+if(uploadError)
+throw uploadError;
+
+const { data } =
+supabaseClient.storage
+.from("produtos")
+.getPublicUrl(nomeArquivo);
+
+fotoUrl =
+data.publicUrl;
+}
+
+const produto = {
+
+nome:
+document.getElementById("nome")
+.value.trim(),
+
+preco:
+Number(
+document.getElementById("preco")
+.value),
+
+categoria:
+document.getElementById("categoria")
+.value,
+
+descricao:
+document.getElementById("descricao")
+.value.trim(),
+
+disponivel:
+document.getElementById("disponivel")
+.value === "true"
+};
+
+if(fotoUrl)
+produto.foto = fotoUrl;
+
+if(id) {
+
+const { error } =
+await supabaseClient
+.from("produtos")
+.update(produto)
+.eq("id", id);
+
+if(error) throw error;
+
+mensagem.textContent =
+"Produto atualizado com sucesso!";
+
+} else {
+
+if(!fotoUrl)
+throw new Error(
+"Escolha uma foto."
+);
+
+const { error } =
+await supabaseClient
+.from("produtos")
+.insert([produto]);
+
+if(error) throw error;
+
+mensagem.textContent =
+"Produto cadastrado com sucesso!";
+}
+
+mensagem.style.color =
+"#4cff88";
+
+form.reset();
+
+document.getElementById("produtoId").value = "";
+
+botao.textContent =
+"Cadastrar produto";
+
+cancelar.style.display =
+"none";
+
+await carregarProdutos();
+
+} catch(erro) {
+
+mensagem.style.color =
+"#ff6767";
+
+mensagem.textContent =
+"Erro: " + erro.message;
+
+} finally {
+
+botao.disabled = false;
+
+}
+
+});
+
+carregarProdutos();
+
 </script>
 
 </body>
