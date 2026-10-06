@@ -1,32 +1,141 @@
 const SUPABASE_URL = "https://xdceqwwpvmjqowjunqvt.supabase.co";
 const SUPABASE_KEY = "sb_publishable_aw2xm8AIgS_5WyXCZAkXyg_OBiy2yCS";
-const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
-const produtos = [
- {nome:"Exemplo — Organizador",categoria:"cozinha",icone:"🍴",descricao:"Espaço reservado para um produto da categoria Cozinha.",preco:"Sob consulta"},
- {nome:"Exemplo — Suporte",categoria:"banheiro",icone:"🧼",descricao:"Espaço reservado para um produto da categoria Banheiro.",preco:"Sob consulta"},
- {nome:"Exemplo — Decoração",categoria:"sala",icone:"🛋️",descricao:"Espaço reservado para um produto da categoria Sala.",preco:"Sob consulta"},
- {nome:"Exemplo — Organizador",categoria:"quarto",icone:"🛏️",descricao:"Espaço reservado para um produto da categoria Quarto.",preco:"Sob consulta"},
- {nome:"Brinquedos 3D",categoria:"brinquedos",icone:"🧩",descricao:"Brinquedos e peças criativas produzidas em impressão 3D.",preco:"Sob consulta"},
- {nome:"Chaveiros Personalizados",categoria:"chaveiros",icone:"🔑",descricao:"Chaveiros com nomes, logos, temas e modelos personalizados.",preco:"Sob consulta"},
- {nome:"Miniaturas Personalizadas",categoria:"miniaturas",icone:"🧍",descricao:"Bonequinhos e miniaturas personalizados, inclusive inspirados na aparência da pessoa a partir de referências.",preco:"Sob consulta"},
- {nome:"Natal em 3D",categoria:"natal",icone:"🎄",descricao:"Enfeites, lembranças, nomes, decoração e presentes personalizados para o Natal.",preco:"Sob consulta"},
- {nome:"Halloween em 3D",categoria:"halloween",icone:"🎃",descricao:"Decorações, lembrancinhas e peças temáticas personalizadas para o Halloween.",preco:"Sob consulta"},
- {nome:"Aniversários Personalizados",categoria:"aniversarios",icone:"🎂",descricao:"Topos, lembrancinhas, nomes, chaveiros e peças personalizadas para aniversários.",preco:"Sob consulta"},
- {nome:"Utilitários 3D",categoria:"utilitarios",icone:"🧰",descricao:"Peças úteis e soluções práticas para o dia a dia.",preco:"Sob consulta"}
-];
+const supabase = window.supabase.createClient(
+  SUPABASE_URL,
+  SUPABASE_KEY
+);
 
-const grid=document.querySelector("#productGrid");
-function render(filtro="todos"){
- const lista=filtro==="todos"?produtos:produtos.filter(p=>p.categoria===filtro);
- grid.innerHTML=lista.map(p=>`<article class="card">
-  <div class="foto">${p.icone}</div>
-  <div class="card-body"><small>${p.categoria}</small><h3>${p.nome}</h3><p>${p.descricao}</p>
-  <div class="preco">${p.preco}</div>
-  <a class="btn principal" target="_blank" rel="noopener" href="https://wa.me/5548991601403?text=${encodeURIComponent("Olá ede_3d! Tenho interesse em: "+p.nome)}">Tenho interesse</a></div>
- </article>`).join("");
+const grid = document.querySelector("#productGrid");
+
+let produtos = [];
+
+// Busca os produtos cadastrados no Supabase
+async function carregarProdutos() {
+  grid.innerHTML = "<p>Carregando produtos...</p>";
+
+  const { data, error } = await supabase
+    .from("produtos")
+    .select("*")
+    .order("created_at", { ascending: false });
+
+  if (error) {
+    console.error(error);
+    grid.innerHTML =
+      "<p>Não foi possível carregar os produtos.</p>";
+    return;
+  }
+
+  produtos = data || [];
+
+  render();
 }
-render();
-document.querySelectorAll("[data-filter]").forEach(el=>el.addEventListener("click",()=>{render(el.dataset.filter);}));
-document.querySelector("#mostrarTodos").addEventListener("click",()=>render());
-document.querySelector(".menu-btn").addEventListener("click",()=>document.querySelector("#menu").classList.toggle("aberto"));
+
+// Mostra os produtos
+function render(filtro = "todos") {
+
+  const lista =
+    filtro === "todos"
+      ? produtos
+      : produtos.filter(p => p.categoria === filtro);
+
+  if (lista.length === 0) {
+    grid.innerHTML =
+      "<p>Nenhum produto encontrado nesta categoria.</p>";
+    return;
+  }
+
+  grid.innerHTML = lista.map(p => {
+
+    const preco = Number(p.preco).toLocaleString(
+      "pt-BR",
+      {
+        style: "currency",
+        currency: "BRL"
+      }
+    );
+
+    const imagem = p.foto
+      ? `<img src="${p.foto}" alt="${p.nome}" style="width:100%;height:100%;object-fit:cover;">`
+      : "📦";
+
+    const disponibilidade = p.disponivel
+      ? ""
+      : `<p><strong>Indisponível</strong></p>`;
+
+    return `
+      <article class="card">
+
+        <div class="foto">
+          ${imagem}
+        </div>
+
+        <div class="card-body">
+
+          <small>${p.categoria || ""}</small>
+
+          <h3>${p.nome || ""}</h3>
+
+          <p>${p.descricao || ""}</p>
+
+          <div class="preco">
+            ${preco}
+          </div>
+
+          ${disponibilidade}
+
+          ${
+            p.disponivel
+              ? `
+                <a
+                  class="btn principal"
+                  target="_blank"
+                  rel="noopener"
+                  href="https://wa.me/5548991601403?text=${encodeURIComponent(
+                    "Olá ede_3d! Tenho interesse em: " + p.nome
+                  )}"
+                >
+                  Tenho interesse
+                </a>
+              `
+              : ""
+          }
+
+        </div>
+
+      </article>
+    `;
+  }).join("");
+}
+
+
+// Filtros das categorias
+document.querySelectorAll("[data-filter]").forEach(el => {
+
+  el.addEventListener("click", () => {
+    render(el.dataset.filter);
+  });
+
+});
+
+
+// Botão mostrar todos
+const mostrarTodos = document.querySelector("#mostrarTodos");
+
+if (mostrarTodos) {
+  mostrarTodos.addEventListener("click", () => render());
+}
+
+
+// Menu do celular
+const menuBtn = document.querySelector(".menu-btn");
+
+if (menuBtn) {
+  menuBtn.addEventListener("click", () => {
+    document.querySelector("#menu")?.classList.toggle("aberto");
+  });
+}
+
+
+// Carrega os produtos ao abrir o site
+carregarProdutos();
