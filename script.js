@@ -47,17 +47,19 @@ function render(filtro = "todos") {
 
   grid.innerHTML = lista.map(p => {
 
-    const preco = Number(p.preco).toLocaleString(
-      "pt-BR",
-      {
-        style: "currency",
-        currency: "BRL"
-      }
-    );
+    const preco = p.preco == null || p.preco === ""
+  ? "Sob consulta"
+  : Number(p.preco).toLocaleString("pt-BR", {
+      style: "currency",
+      currency: "BRL"
+    });
 
-    const imagem = p.foto
-      ? `<img src="${p.foto}" alt="${p.nome}" style="width:100%;height:100%;object-fit:cover;">`
-      : "📦";
+    
+    const imagem = `
+  ${p.foto ? `<img src="${p.foto}" alt="${p.nome}" style="width:100%;height:100%;object-fit:cover;">` : ""}
+  ${p.video ? `<video src="${p.video}" controls playsinline style="width:100%;max-height:250px;"></video>` : ""}
+  ${!p.foto && !p.video ? "📦" : ""}
+`;
 
     const disponibilidade = p.disponivel
       ? ""
