@@ -415,7 +415,8 @@ let fotoUrl = null;
 
 const arquivo =
 document.getElementById("foto").files[0];
-
+const arquivoVideo = document.getElementById("video").files[0];
+let videoUrl = null;
 if(arquivo) {
 
 const extensao =
@@ -444,17 +445,30 @@ supabaseClient.storage
 fotoUrl =
 data.publicUrl;
 }
+if (arquivoVideo) {
+  const nomeVideo = Date.now() + "-" + arquivoVideo.name;
 
+  const { error: erroVideo } = await supabaseClient.storage
+    .from("produtos")
+    .upload(nomeVideo, arquivoVideo);
+
+  if (erroVideo) throw erroVideo;
+
+  const { data: dadosVideo } = supabaseClient.storage
+    .from("produtos")
+    .getPublicUrl(nomeVideo);
+
+  videoUrl = dadosVideo.publicUrl;
+}
 const produto = {
 
 nome:
 document.getElementById("nome")
 .value.trim(),
 
-preco:
-Number(
-document.getElementById("preco")
-.value),
+preco: document.getElementById("preco").value === ""
+  ? null
+  : Number(document.getElementById("preco").value),
 
 categoria:
 document.getElementById("categoria")
@@ -471,7 +485,9 @@ document.getElementById("disponivel")
 
 if(fotoUrl)
 produto.foto = fotoUrl;
-
+if (videoUrl) {
+  produto.video = videoUrl;
+}
 if(id) {
 
 const { error } =
@@ -487,10 +503,10 @@ mensagem.textContent =
 
 } else {
 
-if(!fotoUrl)
-throw new Error(
-"Escolha uma foto."
-);
+
+
+
+  
 
 const { error } =
 await supabaseClient
